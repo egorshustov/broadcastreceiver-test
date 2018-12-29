@@ -12,7 +12,8 @@ class ExampleBroadcastReceiver : BroadcastReceiver() {
         }
 
         if (Intent.ACTION_AIRPLANE_MODE_CHANGED == intent?.action) {
-            Toast.makeText(context, "Airplane mode changed", Toast.LENGTH_SHORT).show()
+            val state : Boolean = intent.getBooleanExtra("state", false)
+            Toast.makeText(context, "Airplane mode changed to " + state.toString(), Toast.LENGTH_SHORT).show()
         }
     }
 }
