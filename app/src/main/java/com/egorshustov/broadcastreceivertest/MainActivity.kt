@@ -1,10 +1,8 @@
 package com.egorshustov.broadcastreceivertest
 
-import android.content.Intent
 import android.content.IntentFilter
-import android.net.ConnectivityManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,17 +11,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-    }
 
-    override fun onStart() {
-        super.onStart()
-        val intentFilter = IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED)
-        intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED)
+        val intentFilter = IntentFilter("com.egorshustov.broadcastreceivertest.EXAMPLE_ACTION")
         registerReceiver(exampleBroadcastReceiver, intentFilter)
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         unregisterReceiver(exampleBroadcastReceiver)
     }
 }
