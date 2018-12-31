@@ -7,9 +7,6 @@ import android.widget.Toast
 
 class ExampleBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
-        if ("com.egorshustov.broadcastreceivertest.EXAMPLE_ACTION" == intent?.action) {
-            val receivedText : String = intent.getStringExtra("com.egorshustov.broadcastreceivertest.EXAMPLE_TEXT")
-            Toast.makeText(context, receivedText, Toast.LENGTH_LONG).show()
-        }
+        Toast.makeText(context, "EBR triggered", Toast.LENGTH_LONG).show()
     }
 }
