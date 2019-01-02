@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
         val intentFilter = IntentFilter("com.egorshustov.EXAMPLE_ACTION")
         intentFilter.priority = 1
-        registerReceiver(orderedReceiver1, intentFilter)
+        registerReceiver(orderedReceiver1, intentFilter, android.Manifest.permission.VIBRATE, null)
     }
 
     override fun onDestroy() {
