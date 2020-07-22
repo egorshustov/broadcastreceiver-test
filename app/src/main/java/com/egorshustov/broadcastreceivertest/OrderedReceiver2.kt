@@ -3,32 +3,44 @@ package com.egorshustov.broadcastreceivertest
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.widget.Toast
 import com.egorshustov.broadcastreceivertest.MainActivity.Companion.STRING_EXTRA_KEY
 
 class OrderedReceiver2 : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
-        var resultCode = resultCode
-        var resultData = resultData
-        val resultExtras = getResultExtras(true)
-        var stringExtra = resultExtras?.getString(STRING_EXTRA_KEY)
+        val handler = Handler()
 
-        ++resultCode
-        stringExtra += "->OR2"
+        val pendingResult = goAsync()
 
-        val toastText = "OR2\n" +
-                "resultCode: $resultCode\n" +
-                "resultData: $resultData\n" +
-                "stringExtra: $stringExtra"
+        Thread(Runnable {
+            Thread.sleep(10000)
 
-        Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
+            var resultCode = pendingResult.resultCode
+            var resultData = pendingResult.resultData
+            val resultExtras = pendingResult.getResultExtras(true)
+            var stringExtra = resultExtras?.getString(STRING_EXTRA_KEY)
 
-        resultData = "OR2"
-        resultExtras.putString(STRING_EXTRA_KEY, stringExtra)
+            ++resultCode
+            stringExtra += "->OR2"
 
-        setResult(resultCode, resultData, resultExtras)
+            val toastText = "OR2\n" +
+                    "thread: ${Thread.currentThread().name}\n" +
+                    "resultCode: $resultCode\n" +
+                    "resultData: $resultData\n" +
+                    "stringExtra: $stringExtra"
 
-        //abortBroadcast()
+            handler.post {
+                Toast.makeText(context, toastText, Toast.LENGTH_LONG).show()
+            }
+
+            resultData = "OR2"
+            resultExtras.putString(STRING_EXTRA_KEY, stringExtra)
+
+            pendingResult.setResult(resultCode, resultData, resultExtras)
+            pendingResult.finish()
+            //pendingResult.abortBroadcast()
+        }).start()
     }
 }

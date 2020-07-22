@@ -18,6 +18,7 @@ class OrderedReceiver1 : BroadcastReceiver() {
         stringExtra += "->OR1"
 
         val toastText = "OR1\n" +
+                "thread: ${Thread.currentThread().name}\n" +
                 "resultCode: $resultCode\n" +
                 "resultData: $resultData\n" +
                 "stringExtra: $stringExtra"

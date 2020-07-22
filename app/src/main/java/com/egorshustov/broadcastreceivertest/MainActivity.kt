@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         unregisterReceiver(orderedReceiver1)
+        super.onDestroy()
     }
 
     companion object {
